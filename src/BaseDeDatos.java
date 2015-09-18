@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,16 +29,18 @@ public class BaseDeDatos {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/test");
             statement = connection.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(BaseDeDatos.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se logró establecer conexión con la Base de Datos.", "Error de Conexión", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
     }
     
-    public void ejecutar(String sql ){
+    public boolean ejecutar(String sql ){
         try {
             statement.execute(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(BaseDeDatos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
+        return true;
     }
     
     public static void main(String[] args){
